@@ -56,6 +56,7 @@ const Appointments = () => {
                         </Box>
                     ))
                 }
+                {/* if not */}
 
                 {
                     myAppointments.length<=0 && 
