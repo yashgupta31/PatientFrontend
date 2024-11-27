@@ -1,0 +1,38 @@
+/* .profile-dropdown{
+    background-color: yellow;
+    width: 11rem;
+    height: auto;
+    position: absolute;
+    right: -1rem;
+    top: 0.5rem;
+    transition: 1s;
+}
+
+.profile:hover .profile-dropdown{
+    background-color: pink;
+    height: 10rem;
+    transition: height 1s;
+} */
+.profile{
+    cursor: pointer;
+}
+/* Initial state for the dropdown */
+.profile-dropdown {
+    background-color: white;
+    width: 13rem;
+    height: 0rem; /* Explicit starting height */
+    position: absolute;
+    right: -1rem;
+    top: 4.5rem;
+    overflow: hidden; /* Ensures content stays within bounds */
+    transition: 0.3s;
+    z-index: 99;
+    border-radius: 4px;
+  }
+  
+  /* Hover state for the dropdown */
+  .profile:hover .profile-dropdown {
+    height: 9rem; /* Explicit ending height */
+
+    
+  }

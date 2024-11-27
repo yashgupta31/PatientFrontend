@@ -1,0 +1,15 @@
+.each-doctors{
+    /* width: 23%; */
+}
+
+.each-doctors:hover{
+    margin-top: -0.6rem;
+    transition: 0.4s;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+/* .each-doctors:not(:hover){
+    background-color: green;
+    transition: 0.4s;
+} */
