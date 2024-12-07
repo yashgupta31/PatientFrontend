@@ -1,5 +1,5 @@
 import { Typography } from '@mui/joy'
-import { Box, Button } from '@mui/material'
+import { Box, Button, useMediaQuery } from '@mui/material'
 import React from 'react'
 
 const Doctors = () => {
@@ -55,19 +55,21 @@ const Doctors = () => {
             speciality: 'Radiology'
         }
     ];
+
+    const isLargerThan450= useMediaQuery('(min-width: 450px)')
     
     return (
-        <Box width={'100%'}  display={'flex'} flexDirection={'column'} alignItems={'center'} marginTop={'2rem'} paddingBottom={'5rem'}>
-            <Box  width={'28rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} textAlign={'center'}>
-                <Typography fontSize={'1.8rem'} fontWeight={'500'} mb={'0.6rem'}>Top Doctors to Book</Typography>
-                <Typography fontSize={'13px'} mb={'1rem'}>Simply browse through our extensive list of trusted doctors.</Typography>
+        <Box width={'100%'} bgcolor={'white'} display={'flex'} flexDirection={'column'} alignItems={'center'} paddingTop={isLargerThan450?'2rem': '1rem'} paddingBottom={'5rem'}>
+            <Box  width={isLargerThan450?'28rem': '90%'} display={'flex'} flexDirection={'column'} alignItems={'center'} textAlign={'center'}>
+                <Typography fontSize={isLargerThan450?'1.8rem': '1.4rem'} fontWeight={'500'} mb={'0.6rem'}>Top Doctors to Book</Typography>
+                <Typography fontSize={'13px'} mb={'1rem'} textAlign={'center'}>Simply browse through our extensive list of trusted doctors.</Typography>
             </Box>
 
             <Box width={'100%'} display={'flex'} flexWrap={'wrap'} marginTop={'1rem'}>
                 {/* ------each doctor------- */}
                {
                 doctorsArr.map((elem, index)=>(
-                    <Box key={index} width={'19%'} height={'20rem'} border={'1.5px solid #C9D8FF'} overflow={'hidden'} borderRadius={'9px'} ml={'auto'} marginBottom={'1.5rem'} sx={{transition: '0.4s',  "&:hover": {marginTop: '-0.6rem', transition: '0.4s', cursor: 'pointer', zIndex: 99}}} >
+                    <Box key={index} width={'14rem'} height={'20rem'} border={'1.5px solid #C9D8FF'} overflow={'hidden'} borderRadius={'9px'} ml={'auto'} mr={'auto'} marginBottom={'1.5rem'} sx={{transition: '0.4s',  "&:hover": {marginTop: '-0.6rem', transition: '0.4s', cursor: 'pointer', zIndex: 99}}} >
                     <Box bgcolor={'#DCFDFD'} height={'70%'} >
                         <img src={elem.image} height={'100%'} alt="" />
                     </Box>
@@ -86,7 +88,7 @@ const Doctors = () => {
                 {/* ---------------- */}
             </Box>
 
-            <Button variant='contained'  sx={{borderRadius: '20px', p: '0.7rem 4rem', bgcolor: '#EAEFFF', color: 'grey', marginTop: '2rem'}}>more</Button>
+            <Button variant='contained'  sx={{borderRadius: '20px', p: isLargerThan450?'0.7rem 4rem': '0.4rem 4rem', bgcolor: '#EAEFFF', color: 'grey', marginTop: isLargerThan450?'2rem': '1rem'}}>more</Button>
         </Box>
     )
 }

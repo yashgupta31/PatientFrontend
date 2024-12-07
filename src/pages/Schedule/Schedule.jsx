@@ -1,26 +1,32 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Typography, useMediaQuery } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { MdVerified } from 'react-icons/md'
 import { color } from '../../utils/color'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { bookAppointment, getSelectedDoctorsAppointments } from '../../Redux/Actions.js/appointmentAction'
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Schedule = () => {
-
+    const dispatch= useDispatch()
+    const {bookedSlots}= useSelector((state)=> state.appointments)
     const [timingArr, setTimingArr] = useState([]); //date, day, all timings
-    const [BookedSlots, setBookedSlots]= useState([]);
+    // console.log(timingArr)
+    // const [BookedSlots, setBookedSlots]= useState([]);
     const [slot, setSlot] = useState({
         date: new Date().toISOString().split('T')[0],
         time: '',
         // month: new Date().getMonth()+ 1
     })
+    // console.log(slot)
     const { isAuthenticated, token } = useSelector((state)=> state.auth);
+    
+    // console.log(bookedSlots)
 
     const updateTimingArr = () => {
         const date = new Date();
-        console.log(date.toISOString())
+        // console.log(date.toISOString())
         const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         const finalArr = [];
 
@@ -38,7 +44,7 @@ const Schedule = () => {
                 let currentHour = date.getHours();
                 let currentMinutes = date.getMinutes();
 
-                if (currentMinutes < 30 && currentHour < 21) {
+                if (currentMinutes < 30 && currentHour < 21 ) {
                     timings.push(`${formatHour(currentHour)}:30 ${currentHour >= 12 ? "PM" : "AM"}`);
                 } else {
 
@@ -80,7 +86,7 @@ const Schedule = () => {
 
     // ---------------------get doctor data---------------------
     const [singleDoctor, setSingleDoctor] = useState({})
-    const { id } = useParams()
+    const { id } = useParams() //this is doctors id got from params
 
     useEffect(() => {
         async function singleDoctor() {
@@ -108,65 +114,46 @@ const Schedule = () => {
             return alert('please select time slot..')
         }
 
-
-        try {
-            const response= await axios.post(`${BACKEND_URL}/appointment/book-appointment/${id}`, 
-                {date: slot.date, time: slot.time, fees: singleDoctor.fees},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            )
-            alert(response.data.message)
-        } catch (error) {
-            if(error.response){
-                alert(error.response.data.message)
-              }else{
-                console.log(error.message)
-              }
-        }
+        await dispatch(bookAppointment({date: slot.date, time: slot.time, fees: singleDoctor.fees}, id))
+        dispatch(getSelectedDoctorsAppointments(id));
     }
 
-    // -----------get all appointments----------
+    // -----------get all appointments of selected doctor----------
 
    useEffect(()=>{
-    async function fetchAppointments(){
-        try {
-            const response= await axios.get(`${BACKEND_URL}/appointment/all-appointments`);
-            // console.log(response.data)
-            setBookedSlots(response.data.appointments)
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-    fetchAppointments()
-   }, [BookedSlots])
+    dispatch(getSelectedDoctorsAppointments(id))
+   }, [dispatch])
+
+//    ------screen sizes-------
+   const isLargerThan1250= useMediaQuery('(min-width: 1250px)');
+   const isLargerThan950= useMediaQuery('(min-width: 950px)');
+   const isLargerThan650= useMediaQuery('(min-width: 650px)');
+   const isLargerThan500= useMediaQuery('(min-width: 500px)');
 
     return (
-        <Box display={'flex'} justifyContent={'space-between'} mt={'1.3rem'}>
-            <Box bgcolor={color.background} width={'23%'} height={'17rem'} borderRadius={'10px'}>
+        <Box  width={'100%'} display={'flex'} flexDirection={isLargerThan650? 'row': 'column'} alignItems={isLargerThan650? 'start': 'center'} justifyContent={'space-between'} mt={'1.3rem'}>
+            <Box bgcolor={color.background} width={isLargerThan1250?'23%': isLargerThan650?'40%': '15rem'}  height={isLargerThan950?'17rem': '15rem'} mr={isLargerThan500?'1rem': '0rem'} mb={!isLargerThan650 && '1rem'} display={'flex'} alignItems={'end'} justifyContent={'center'} borderRadius={'10px'}>
                 <img height={'100%'} src={`${BACKEND_URL}${singleDoctor.image}`} alt="" />
             </Box>
 
             {/* -------right------- */}
-            <Box width={'75%'}>
-                <Box width={'100%'} p={'1.5rem'} border={'1px solid lightgrey'} borderRadius={'20px'}>
-                    <Typography fontSize={'1.8rem'} display={'flex'} alignItems={'center'}>{singleDoctor.name} <MdVerified style={{ color: 'blue', fontSize: '1.5rem', marginLeft: '0.5rem' }} /></Typography>
-                    <Typography>MBBS - {singleDoctor.speciality} <span style={{ padding: '0.2rem 0.3rem', borderRadius: '16px', fontSize: '12px', border: '1px solid lightgrey' }}>2 Years</span></Typography>
+            <Box width={isLargerThan1250?'75%': isLargerThan650?'58%': '100%'}>
+                <Box width={'100%'} p={isLargerThan500? '1.5rem': '0.6rem'} border={'1px solid lightgrey'} borderRadius={'20px'}>
+                    <Typography fontSize={isLargerThan500?'1.8rem': '1.3rem'} display={'flex'} alignItems={'center'}>{singleDoctor.name} <MdVerified style={{ color: 'blue', fontSize: isLargerThan500?'1.5rem': '1.1rem', marginLeft: '0.5rem' }} /></Typography>
+                    <Typography fontSize={isLargerThan500?'1rem': '0.9rem'}>MBBS - {singleDoctor.speciality} <span style={{ padding: '0.1rem 0.5rem', borderRadius: '16px', fontSize: isLargerThan500?'12px': '10px', border: '1px solid lightgrey' }}>{singleDoctor.experience} Years</span></Typography>
                     <Typography>About</Typography>
-                    <Typography fontSize={'13.5px'} width={'75%'}>{singleDoctor.about}</Typography>
+                    <Typography fontSize={'13.5px'} width={isLargerThan1250? '75%': '98%'}>{singleDoctor.about}</Typography>
                     <Typography>Appointment fee: ${singleDoctor.fees}</Typography>
                 </Box>
 
                 <Box mt={'2rem'}>
                     <Typography>Booking slots</Typography>
-                    <Box display={'flex'} mt={'0.6rem'}>
+                    <Box sx={{overflowX: 'scroll', '&::-webkit-scrollbar': { display: 'none' }}} display={'flex'} mt={'0.6rem'} >
                         {
                             timingArr.map((elem, index) => (
-                                <Box key={index} onClick={() => setSlot({ ...slot, date: elem.date })} bgcolor={elem.date == slot.date && color.primary} color={elem.date == slot.date ? 'white' : 'grey'} sx={{ '&:hover': { cursor: 'pointer' } }} width={'3.8rem'} height={'6.2rem'} mr={'0.6rem'} border={'1px solid lightgrey'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} borderRadius={'30px'}>
-                                    <Typography>{elem.day}</Typography>
-                                    <Typography>{elem.date.split('-')[2]}</Typography>
+                                <Box key={index} onClick={() => setSlot({ ...slot, date: elem.date })} bgcolor={elem.date == slot.date && color.primary} color={elem.date == slot.date ? 'white' : 'grey'} minWidth={'2.7rem'} width={'3.8rem'} height={isLargerThan500?'6.2rem': '5.4rem'}  sx={{ '&:hover': { cursor: 'pointer' } }}  mr={'0.6rem'} border={'1px solid lightgrey'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} borderRadius={'30px'}>
+                                    <Typography fontSize={isLargerThan500?'1rem': '0.9rem'}>{elem.day}</Typography>
+                                    <Typography fontSize={isLargerThan500?'1rem': '0.9rem'}>{elem.date.split('-')[2]}</Typography>
                                 </Box>
                             ))
                         }
@@ -175,25 +162,12 @@ const Schedule = () => {
                     </Box>
 
                     <Box display={'flex'} overflow={'auto'} mt={'0.7rem'} sx={{ '&::-webkit-scrollbar': { display: 'none' } }}>
-                        {/* {
-                            timingArr.find((elem) => elem.date === slot.date)?.timings // Get the object with matching date
-                                .filter((time) =>
-                                    !BookedSlots.some(
-                                        (booked) => booked.date === slot.date && booked.time === time
-                                    ) // Exclude booked slots
-                                )
-                                .map((elem, index) => (
-                                    <Box key={index} onClick={() => setSlot({ ...slot, time: elem })} color={'lightgray'} bgcolor={elem == slot.time && color.primary} sx={{ '&:hover': { cursor: 'pointer' } }} border={'1px solid lightgrey'} mr={'1rem'} minWidth={'6rem'} height={'2.2rem'} display={'flex'} alignItems={'center'} justifyContent={'center'} borderRadius={'17px'}>
-                                        {elem}
-                                    </Box>
-                                ))
-                        } */}
                         
                         {/* shown all times if available then shown that time otherwise 'Booked' text */}
                         {timingArr.find((elem) => elem.date === slot.date)?.timings
                             .map((time, index) => {
                                 // Check if the current time slot is booked
-                                const isBooked = BookedSlots.some(
+                                const isBooked = bookedSlots.some(
                                     (booked) => booked.date === slot.date && booked.time === time
                                 );
 
@@ -205,9 +179,10 @@ const Schedule = () => {
                                         bgcolor={isBooked ? '#C75C5C' : time === slot.time && color.primary} // Coral for booked, highlight selected
                                         sx={{ '&:hover': { cursor: isBooked ? 'not-allowed' : 'pointer' } }} // Disable hover for booked slots
                                         border={'1px solid lightgrey'}
-                                        mr={'1rem'}
+                                        mr={isLargerThan500?'1rem': '0.4rem'}
                                         minWidth={'6rem'}
-                                        height={'2.2rem'}
+                                        height={isLargerThan500?'2.2rem': '1.9rem'}
+                                        fontSize={isLargerThan500?'1rem': '0.8rem'}
                                         display={'flex'}
                                         alignItems={'center'}
                                         justifyContent={'center'}
@@ -221,7 +196,7 @@ const Schedule = () => {
 
                     </Box>
 
-                    <Button variant='contained' onClick={handleSlot} sx={{ bgcolor: color.primary, borderRadius: '18px', width: '20rem', height: '2.6rem', mt: '1rem' }}>Book an appointment</Button>
+                    <Button variant='contained' onClick={handleSlot} sx={{ bgcolor: color.primary, borderRadius: '18px', width: isLargerThan650? '20rem': '100%', height: isLargerThan500?'2.6rem': '2.4rem', mt: '1rem', mb: '1rem', fontSize: '0.8rem' }}>Book an appointment</Button>
                 </Box>
 
 

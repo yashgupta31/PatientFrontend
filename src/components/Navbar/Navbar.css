@@ -32,7 +32,7 @@
   
   /* Hover state for the dropdown */
   .profile:hover .profile-dropdown {
-    height: 9rem; /* Explicit ending height */
+    height: 8rem; /* Explicit ending height */
 
     
   }

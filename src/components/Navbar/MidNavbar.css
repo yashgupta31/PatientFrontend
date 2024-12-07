@@ -1,0 +1,31 @@
+.menu{
+    background-color: white;
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    transition: 0.2s;
+    width: 100%;
+    right: -800px;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    opacity: 0%;
+
+}
+
+.menu.open{
+    right: 0;
+    opacity: 100%;
+}
+
+/* .menu-open{
+    background-color: blue;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 10rem;
+    transition: 1s;
+    
+} */

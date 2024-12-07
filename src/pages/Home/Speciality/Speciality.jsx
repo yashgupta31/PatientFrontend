@@ -1,5 +1,5 @@
 import { Typography } from '@mui/joy'
-import { Box } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 import React from 'react'
 
 const Speciality = () => {
@@ -29,25 +29,22 @@ const Speciality = () => {
             name: 'Gastroenterologist'
         }
     ]
+
+    // ----------screen sizes-------
+
+    const isLargerThan900= useMediaQuery('(min-width: 900px)')
+    const isLargerThan500= useMediaQuery('(min-width: 500px)')
     return (
-        <Box bgcolor={'white'} p={'4rem 0rem'} display={'flex'} flexDirection={'column'} alignItems={'center'}>
-            <Box  width={'28rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} textAlign={'center'}>
-                <Typography fontSize={'1.8rem'} fontWeight={'500'} mb={'0.5rem'}>Find by Speciality</Typography>
-                <Typography fontSize={'sm'}>Simply browse through our extensive list of trusted doctors, schedule your appointment hassle-free.</Typography>
+        <Box bgcolor={'white'} p={isLargerThan900?'4rem 0rem': '2rem 0rem'} display={'flex'} flexDirection={'column'} alignItems={'center'}>
+            <Box  width={isLargerThan500?'28rem': '95%'} display={'flex'} flexDirection={'column'} alignItems={'center'} textAlign={'center'}>
+                <Typography fontSize={isLargerThan500?'1.8rem': '1.4rem'} fontWeight={'500'} mb={'0.5rem'}>Find by Speciality</Typography>
+                <Typography fontSize={'sm'} textAlign={'center'}>Simply browse through our extensive list of trusted doctors, schedule your appointment hassle-free.</Typography>
             </Box>
-            <Box 
-    width="63%" 
-    height="11rem" 
-    gap="0.5rem" 
-    display="flex"
-    alignItems={'center'}
-    marginTop="2rem"
-    overflow={'auto'}
->                
+            <Box width={isLargerThan900?"63%": '90%'} height={isLargerThan900?"11rem": '8rem'}  gap="0.5rem"  display="flex" alignItems={'center'} marginTop={isLargerThan500?"2rem": '1rem'} overflow={'auto'}>                
                 {
                     data.map((elem, index)=>(
-                        <Box key={index}   minWidth={'7rem'} height={'85%'} marginLeft={'auto'} sx={{transition: '0.4s',  "&:hover": {marginTop: '-1rem', transition: '0.4s', cursor: 'pointer', zIndex: 99}}} display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} alignItems={'center'} >
-                        <img width={'90rem'} height={'90rem'} src={elem.image} alt="" />
+                        <Box key={index} minWidth={'7rem'} height={'85%'} marginLeft={'auto'} sx={{transition: '0.4s',  "&:hover": {marginTop: '-1rem', transition: '0.4s', cursor: 'pointer', zIndex: 99}}} display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} alignItems={'center'} >
+                        <img width={isLargerThan900?'90rem': '80rem'} height={'90rem'} src={elem.image} alt="" />
                     <Typography fontSize={'sm'}>{elem.name}</Typography>
                 </Box>
                     ))

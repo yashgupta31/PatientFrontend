@@ -1,5 +1,5 @@
 import { Typography } from '@mui/joy'
-import { Box, Button, FormLabel, Input, TextField } from '@mui/material'
+import { Box, Button, FormLabel, Input, TextField, useMediaQuery } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { color } from '../../utils/color'
 import axios from 'axios'
@@ -31,15 +31,18 @@ const Create = ({setIsLoginOpen}) => {
     }
   }
 
-  return (
-    <Box component={'form'} onSubmit={handleSubmit} width={'30%'} height={'25rem'} p={'1.5rem'} borderRadius={'9px'} display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'start'}  boxShadow={'rgba(0, 0, 0, 0.1) 0px 4px 12px'} border={`1px solid ${color.border}`}>
-        <Typography fontSize={'1.6rem'} fontWeight={600}>Create Account</Typography>
-        <Typography>Please sign up to book appointment</Typography>
+  // -----------screen sizes---------
+  const isLargerThan400= useMediaQuery('(min-width: 400px)');
 
-        <TextField id="standard-basic" onChange={(e)=> setName(e.target.value)}  type='text' sx={{width: '100%'}} label="Full Name" variant="standard" required />
-        <TextField id="standard-basic" onChange={(e)=> setEmail(e.target.value)} type='email' sx={{width: '100%'}} label="Email" variant="standard" required />
-        <TextField id="standard-basic" onChange={(e)=> setPassword(e.target.value)} type='password' sx={{width: '100%'}} label="Password" variant="standard" required />
-        <Button variant='contained' type='submit' sx={{width: '100%', bgcolor: color.primary, p: '0.5rem 0rem' }}>Create Account</Button>
+  return (
+    <Box component={'form'} onSubmit={handleSubmit} width={'22rem'} height={isLargerThan400? '25rem': '24rem'} p={'1.5rem'} borderRadius={'9px'} display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'start'}  boxShadow={'rgba(0, 0, 0, 0.1) 0px 4px 12px'} border={`1px solid ${color.border}`}>
+        <Typography fontSize={isLargerThan400?'1.6rem': '1.3rem'} fontWeight={600}>Create Account</Typography>
+        <Typography fontSize={isLargerThan400?'1rem': '0.9rem'}>Please sign up to book appointment</Typography>
+
+        <TextField id="standard-basic" size={isLargerThan400? 'large': 'small'} onChange={(e)=> setName(e.target.value)}  type='text' sx={{width: '100%'}} label="Full Name" variant="standard" required />
+        <TextField id="standard-basic" size={isLargerThan400? 'large': 'small'} onChange={(e)=> setEmail(e.target.value)} type='email' sx={{width: '100%'}} label="Email" variant="standard" required />
+        <TextField id="standard-basic" size={isLargerThan400? 'large': 'small'} onChange={(e)=> setPassword(e.target.value)} type='password' sx={{width: '100%'}} label="Password" variant="standard" required />
+        <Button variant='contained' type='submit' sx={{width: '100%', bgcolor: color.primary, p: '0.5rem 0rem', fontSize: isLargerThan400? '0.9rem': '0.7rem' }}>Create Account</Button>
 
         <Typography>Already have an account? <span style={{color: color.primary, borderBottom: `1px solid ${color.primary}`, cursor: 'pointer'}} onClick={()=> setIsLoginOpen(true)}>Login here</span></Typography>
 

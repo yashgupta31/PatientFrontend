@@ -1,5 +1,5 @@
 import './App.css'
-import { Box, Button } from '@mui/material'
+import { Box, Button, useMediaQuery } from '@mui/material'
 import Navbar from './components/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home/Home'
@@ -12,6 +12,9 @@ import {jwtDecode} from 'jwt-decode';
 import { useDispatch, useSelector } from 'react-redux'
 import { login, loginSuccess } from './Redux/Actions.js/authAction'
 import ProtectedRoute from './ProtectedRoute'
+import MidNavbar from './components/Navbar/MidNavbar'
+import Footer from './components/Footer/Footer'
+import Profile from './pages/Profile/Profile'
 
 function App() {
   // const {isAuthenticated}= useSelector((state)=> state.auth)
@@ -27,20 +30,32 @@ function App() {
     }
   }, [])
 
+  // -------screen sizes------------
+
+  const isLargerThan850=useMediaQuery('(min-width: 850px)')
+
   return (
-    <Box width={'80%'} margin={'auto'}>
-       <Navbar />
+    <Box width={isLargerThan850?'80%': '95%'} margin={'auto'} >
+      {/* sx={{
+      overflowY: 'scroll', // Allows scrolling without showing the scrollbar
+      '&::-webkit-scrollbar': { display: 'none' } // For Chrome, Safari, and Edge
+      
+    }}  */}
+      {
+        isLargerThan850? <Navbar />: <MidNavbar />
+      }
+       
 
        <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/alldoctors' element={<AllDoctors />} />
         <Route path='/auth' element={<ProtectedRoute><Auth /></ProtectedRoute>} />
-        <Route path='/ap' element={<Appointments />} />
+        <Route path='/my-appointments' element={<Appointments />} />
         <Route path='/schedule/:id' element={<Schedule />} />
-
-
+        <Route path='/profile' element={<Profile />} />
         <Route path='*' element={<h2>No Result found</h2>} />
        </Routes>
+       <Footer />
     </Box>
   )
 }
