@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaChevronDown } from 'react-icons/fa';
 import './Navbar.css'
 import { logout } from '../../Redux/Actions.js/authAction';
+const BACKEND_URL= import.meta.env.VITE_BACKEND_URL;
+
 const Navbar = () => {
   const { userData, token } = useSelector((state) => state.auth);
   const dispatch= useDispatch();
@@ -35,7 +37,7 @@ const Navbar = () => {
         (userData && token)?
         <Box className="profile" pb={'1.2rem'} pt={'1.2rem'} display={'flex'} alignItems={'center'} position={'relative'}   >
           <Box width={'2.1rem'} height={'2.1rem'}>
-            <img style={{width: '100%'}} src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="" />
+            <img style={{width: '100%'}} src={userData.image? `${BACKEND_URL}/${userData.image}` :"https://www.pngmart.com/files/23/Profile-PNG-Photo.png"} alt="" />
           </Box>
           <FaChevronDown style={{marginLeft: '0.5rem'}} />
           <Box  className="profile-dropdown" boxShadow={'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}>

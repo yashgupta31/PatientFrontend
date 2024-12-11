@@ -15,20 +15,32 @@ import ProtectedRoute from './ProtectedRoute'
 import MidNavbar from './components/Navbar/MidNavbar'
 import Footer from './components/Footer/Footer'
 import Profile from './pages/Profile/Profile'
+import About from './pages/About/About'
+import Contact from './pages/Contact/Contact'
 
 function App() {
   // const {isAuthenticated}= useSelector((state)=> state.auth)
   // console.log(isAuthenticated)
   const dispatch= useDispatch()
-  useEffect(()=>{
-    const token= localStorage.getItem('pToken');
-    if(token){
-      const userData= jwtDecode(token);
-      if(userData){
-        dispatch(loginSuccess(token, userData))
-      }
+  useEffect(() => {
+    const token = localStorage.getItem('pToken');
+    const storedUserData = localStorage.getItem('userDetail'); // Retrieve persisted user data
+
+    if (token) {
+        const userData = storedUserData ? JSON.parse(storedUserData) : jwtDecode(token);
+        dispatch(loginSuccess(token, userData)); // Initialize Redux state
     }
-  }, [])
+}, []);
+
+  // useEffect(()=>{
+  //   const token= localStorage.getItem('pToken');
+  //   if(token){
+  //     const userData= jwtDecode(token);
+  //     if(userData){
+  //       dispatch(loginSuccess(token, userData))
+  //     }
+  //   }
+  // }, [])
 
   // -------screen sizes------------
 
@@ -36,11 +48,7 @@ function App() {
 
   return (
     <Box width={isLargerThan850?'80%': '95%'} margin={'auto'} >
-      {/* sx={{
-      overflowY: 'scroll', // Allows scrolling without showing the scrollbar
-      '&::-webkit-scrollbar': { display: 'none' } // For Chrome, Safari, and Edge
-      
-    }}  */}
+     
       {
         isLargerThan850? <Navbar />: <MidNavbar />
       }
@@ -53,6 +61,8 @@ function App() {
         <Route path='/my-appointments' element={<Appointments />} />
         <Route path='/schedule/:id' element={<Schedule />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='*' element={<h2>No Result found</h2>} />
        </Routes>
        <Footer />

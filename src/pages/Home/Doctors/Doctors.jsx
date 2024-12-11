@@ -1,60 +1,77 @@
 import { Typography } from '@mui/joy'
 import { Box, Button, useMediaQuery } from '@mui/material'
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+const BACKEND_URL= import.meta.env.VITE_BACKEND_URL;
 
 const Doctors = () => {
-    const doctorsArr = [
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc1.png',
-            name: 'Dr. Alice Johnson',
-            speciality: 'Cardiology'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc2.png',
-            name: 'Dr. Bob Smith',
-            speciality: 'Dermatology'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc3.png',
-            name: 'Dr. Carol Davis',
-            speciality: 'Pediatrics'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc4.png',
-            name: 'Dr. David Brown',
-            speciality: 'Orthopedics'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc5.png',
-            name: 'Dr. Eva Wilson',
-            speciality: 'Neurology'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc6.png',
-            name: 'Dr. Frank Miller',
-            speciality: 'General Practice'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc7.png',
-            name: 'Dr. Grace Lee',
-            speciality: 'Gynecology'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc8.png',
-            name: 'Dr. Henry Martinez',
-            speciality: 'Psychiatry'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc9.png',
-            name: 'Dr. Isla Thompson',
-            speciality: 'Ophthalmology'
-        },
-        {
-            image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc10.png',
-            name: 'Dr. Jack Anderson',
-            speciality: 'Radiology'
+    const [doctorsArr, setDoctorsArray]= useState([])
+    const navigate= useNavigate()
+    // const doctorsArr = [
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc1.png',
+    //         name: 'Dr. Alice Johnson',
+    //         speciality: 'Cardiology'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc2.png',
+    //         name: 'Dr. Bob Smith',
+    //         speciality: 'Dermatology'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc3.png',
+    //         name: 'Dr. Carol Davis',
+    //         speciality: 'Pediatrics'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc4.png',
+    //         name: 'Dr. David Brown',
+    //         speciality: 'Orthopedics'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc5.png',
+    //         name: 'Dr. Eva Wilson',
+    //         speciality: 'Neurology'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc6.png',
+    //         name: 'Dr. Frank Miller',
+    //         speciality: 'General Practice'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc7.png',
+    //         name: 'Dr. Grace Lee',
+    //         speciality: 'Gynecology'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc8.png',
+    //         name: 'Dr. Henry Martinez',
+    //         speciality: 'Psychiatry'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc9.png',
+    //         name: 'Dr. Isla Thompson',
+    //         speciality: 'Ophthalmology'
+    //     },
+    //     {
+    //         image: 'https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc10.png',
+    //         name: 'Dr. Jack Anderson',
+    //         speciality: 'Radiology'
+    //     }
+    // ];
+
+    useEffect(()=>{
+        async function fetchDoctors(){
+            try {
+                const response= await axios.get(`${BACKEND_URL}/doctor/get-10-doctors`);
+                setDoctorsArray(response.data.doctors)
+            } catch (error) {
+                console.log(error.message)
+            }
         }
-    ];
+        fetchDoctors()
+    }, [])
 
     const isLargerThan450= useMediaQuery('(min-width: 450px)')
     
@@ -69,9 +86,9 @@ const Doctors = () => {
                 {/* ------each doctor------- */}
                {
                 doctorsArr.map((elem, index)=>(
-                    <Box key={index} width={'14rem'} height={'20rem'} border={'1.5px solid #C9D8FF'} overflow={'hidden'} borderRadius={'9px'} ml={'auto'} mr={'auto'} marginBottom={'1.5rem'} sx={{transition: '0.4s',  "&:hover": {marginTop: '-0.6rem', transition: '0.4s', cursor: 'pointer', zIndex: 99}}} >
+                    <Box key={index} onClick={()=> navigate(`/schedule/${elem._id}`)} width={'14rem'} height={'20rem'} border={'1.5px solid #C9D8FF'} overflow={'hidden'} borderRadius={'9px'} ml={'auto'} mr={'auto'} marginBottom={'1.5rem'} sx={{transition: '0.4s',  "&:hover": {marginTop: '-0.6rem', transition: '0.4s', cursor: 'pointer', zIndex: 99}}} >
                     <Box bgcolor={'#DCFDFD'} height={'70%'} >
-                        <img src={elem.image} height={'100%'} alt="" />
+                        <img src={`${BACKEND_URL}${elem.image}`} height={'100%'} alt="" />
                     </Box>
 
                     <Box p={'0rem 1rem'} height={'29%'} display={'flex'} flexDirection={'column'} justifyContent={'center'}>
@@ -88,7 +105,7 @@ const Doctors = () => {
                 {/* ---------------- */}
             </Box>
 
-            <Button variant='contained'  sx={{borderRadius: '20px', p: isLargerThan450?'0.7rem 4rem': '0.4rem 4rem', bgcolor: '#EAEFFF', color: 'grey', marginTop: isLargerThan450?'2rem': '1rem'}}>more</Button>
+            <Button variant='contained' onClick={()=> navigate('/alldoctors')}  sx={{borderRadius: '20px', p: isLargerThan450?'0.7rem 4rem': '0.4rem 4rem', bgcolor: '#EAEFFF', color: 'grey', marginTop: isLargerThan450?'2rem': '1rem'}}>more</Button>
         </Box>
     )
 }

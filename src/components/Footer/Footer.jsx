@@ -5,7 +5,7 @@ const Footer = () => {
 
     const isLargerThan700= useMediaQuery('(min-width: 700px)')
     return (
-        <Box pb={'1rem'} mt={'2rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} >
+        <Box pb={'1rem'} mt={'6rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} >
             <Box width={'100%'} display={'flex'} flexDirection={isLargerThan700?'row': 'column'} justifyContent={'space-between'} pb={'2rem'} borderBottom={'1px solid lightgrey'}>
             <Box width={isLargerThan700?'30%': '90%'} pb={!isLargerThan700 && '1rem'}>
                 <Typography variant={'h5'}>DoctorNow</Typography>
