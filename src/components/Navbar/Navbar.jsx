@@ -11,6 +11,7 @@ const BACKEND_URL= import.meta.env.VITE_BACKEND_URL;
 
 const Navbar = () => {
   const { userData, token } = useSelector((state) => state.auth);
+  console.log(userData)
   const dispatch= useDispatch();
   const location = useLocation()
   const navigate= useNavigate()
@@ -36,9 +37,9 @@ const Navbar = () => {
       {
         (userData && token)?
         <Box className="profile" pb={'1.2rem'} pt={'1.2rem'} display={'flex'} alignItems={'center'} position={'relative'}   >
-          <Box width={'2.1rem'} height={'2.1rem'}>
-            <img style={{width: '100%'}} src={userData.image? `${BACKEND_URL}/${userData.image}` :"https://www.pngmart.com/files/23/Profile-PNG-Photo.png"} alt="" />
-          </Box>
+          <Box width={'2.5rem'} height={'2.5rem'} borderRadius={'50%'} overflow={'hidden'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <img style={{height: '100%'}} src={userData.image? `${userData.image}` :"https://www.pngmart.com/files/23/Profile-PNG-Photo.png"} alt="" />
+          </Box> 
           <FaChevronDown style={{marginLeft: '0.5rem'}} />
           <Box  className="profile-dropdown" boxShadow={'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}>
             <Button onClick={()=> navigate('/profile')} sx={{width: '100%', p: '0.5rem 0rem', fontSize: '0.9rem'}}>Profile</Button>

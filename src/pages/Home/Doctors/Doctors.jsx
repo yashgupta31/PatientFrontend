@@ -88,7 +88,7 @@ const Doctors = () => {
                 doctorsArr.map((elem, index)=>(
                     <Box key={index} onClick={()=> navigate(`/schedule/${elem._id}`)} width={'14rem'} height={'20rem'} border={'1.5px solid #C9D8FF'} overflow={'hidden'} borderRadius={'9px'} ml={'auto'} mr={'auto'} marginBottom={'1.5rem'} sx={{transition: '0.4s',  "&:hover": {marginTop: '-0.6rem', transition: '0.4s', cursor: 'pointer', zIndex: 99}}} >
                     <Box bgcolor={'#DCFDFD'} height={'70%'} >
-                        <img src={`${BACKEND_URL}${elem.image}`} height={'100%'} alt="" />
+                        <img src={elem.image} height={'100%'} alt="" />
                     </Box>
 
                     <Box p={'0rem 1rem'} height={'29%'} display={'flex'} flexDirection={'column'} justifyContent={'center'}>

@@ -30,7 +30,7 @@ const Appointments = () => {
                     myAppointments.map((elem, index) => (
                         <Box key={index} height={isLargerThan500?'12rem': 'auto'} p={'0.9rem 0.3rem'} display={'flex'} flexDirection={isLargerThan500?'row': 'column'} alignItems={'center'} borderTop={`1px solid lightgrey`}>
                             <Box bgcolor={color.background} height={isLargerThan500? '100%': '10rem'} width={'10rem'} display={'flex'} justifyContent={'center'}>
-                                <img style={{ height: '100%' }} src={`${BACKEND_URL}${elem.doctorId.image}`} alt="" />
+                                <img style={{ height: '100%' }} src={elem.doctorId.image} alt="" />
                             </Box>
 
                             <Box height={'100%'} width={isLargerThan500? '17rem': '95%'} ml={isLargerThan500?'1.3rem': '0rem'} textAlign={isLargerThan500?'start':'center'}>

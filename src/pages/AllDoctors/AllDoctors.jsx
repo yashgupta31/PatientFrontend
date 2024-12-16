@@ -13,6 +13,7 @@ const [doctorsArr, setDoctorsArr]= useState([])
 const [searchParams, setSearchParams]= useSearchParams();
 const selectedSpecialist= searchParams.get('specialist') || 'all';
 const [isOpenFilter, setIsOpenFilter]= useState(false);
+console.log(doctorsArr)
 
 const handleClick = (specialist) => {
     setSearchParams({ specialist });
@@ -84,7 +85,7 @@ const handleClick = (specialist) => {
                     <NavLink to={`/schedule/${elem._id}`} className={'each-doctors'} key={index} style={{width: '14rem', height: '20rem', marginRight: 'auto', marginLeft: !isLargerThan1450 && 'auto', textDecoration: 'none', marginBottom: '1.5rem', border: '1.5px solid #C9D8FF', borderRadius: '9px', overflow: 'hidden', transition: '0.4s'}}>
                     <Box width={'100%'} height={'100%'} >
                     <Box bgcolor={'#DCFDFD'} height={'70%'} >
-                        <img src={`${BACKEND_URL}${elem.image}`} height={'100%'} alt="" />
+                        <img src={elem.image} height={'100%'} alt="" />
                     </Box>
 
                     <Box p={'0rem 1rem'} height={'29%'} display={'flex'} flexDirection={'column'} justifyContent={'center'}>

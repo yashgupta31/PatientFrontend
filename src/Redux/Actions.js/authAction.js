@@ -31,7 +31,8 @@ export const login =(email, password, role= 'patient')=> async(dispatch)=>{
 
 export const updateUser=(formData)=> async(dispatch, getState)=>{
     try {
-        const userId= getState().auth.userData.userId;
+        const userId= getState().auth.userData._id;
+        // console.log(userId)
         // console.log(getState().userData)
         const response= await axios.patch(`${BACKEND_URL}/user/update-profile/${userId}`, formData);
         dispatch(updateUserSuccess(response.data.data));

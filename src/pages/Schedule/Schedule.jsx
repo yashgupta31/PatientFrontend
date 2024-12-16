@@ -133,7 +133,7 @@ const Schedule = () => {
     return (
         <Box  width={'100%'} display={'flex'} flexDirection={isLargerThan650? 'row': 'column'} alignItems={isLargerThan650? 'start': 'center'} justifyContent={'space-between'} mt={'1.3rem'}>
             <Box bgcolor={color.background} width={isLargerThan1250?'23%': isLargerThan650?'40%': '15rem'}  height={isLargerThan950?'17rem': '15rem'} mr={isLargerThan500?'1rem': '0rem'} mb={!isLargerThan650 && '1rem'} display={'flex'} alignItems={'end'} justifyContent={'center'} borderRadius={'10px'}>
-                <img height={'100%'} src={`${BACKEND_URL}${singleDoctor.image}`} alt="" />
+                <img height={'100%'} src={`${singleDoctor.image}`} alt="" />
             </Box>
 
             {/* -------right------- */}

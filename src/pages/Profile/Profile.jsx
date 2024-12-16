@@ -52,7 +52,7 @@ const Profile = () => {
         DOB: userData.DOB || '',
       }));
       // initially its checking the database if image found then showing the old image if not then showing profile icon
-      setPrevImage(userData.image? `${BACKEND_URL}/${userData.image}`: DEFAULT_IMAGE);
+      setPrevImage(userData.image? `${userData.image}`: DEFAULT_IMAGE);
     }
   }, [userData]);
   //   console.log(formState.image)
