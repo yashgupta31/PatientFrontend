@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material'
 import React, { useState } from 'react'
 import Typography from '@mui/joy/Typography';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { color } from '../../utils/color';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaChevronDown } from 'react-icons/fa';
@@ -29,7 +29,7 @@ const Navbar = () => {
         <NavLink to={'/alldoctors'} style={{ color: '#282828', textDecoration: 'none', paddingBottom: '0.3rem', borderBottom: path == 'alldoctors' && `2px solid ${color.primary}` }}>ALL DOCTORS</NavLink>
         <NavLink to={'/about'} style={{ color: '#282828', textDecoration: 'none', paddingBottom: '0.3rem', borderBottom: path == 'about' && `2px solid ${color.primary}` }}>ABOUT</NavLink>
         <NavLink to={'/contact'} style={{ color: '#282828', textDecoration: 'none', paddingBottom: '0.3rem', borderBottom: path == 'contact' && `2px solid ${color.primary}` }}>CONTACT</NavLink>
-        <Typography border={'1px solid lightgrey'} p={'0.2rem 0.8rem'} borderRadius={'13px'} fontSize={'xs'} fontWeight={'500'}>Admin Panel</Typography>
+        <Typography component='a' href={'https://docmate-admin-frontend.vercel.app'} target="_blank" border={'1px solid lightgrey'} p={'0.2rem 0.8rem'} sx={{textDecoration: 'none'}} borderRadius={'13px'} fontSize={'xs'} fontWeight={'500'}>Admin Panel</Typography>
       </Box>
       {/* <NavLink to={'/auth'}>
         <Button variant='contained' sx={{borderRadius: '22px', fontSize: '0.7rem', padding: '0.8rem 1.8rem', bgcolor: color.primary}}>Create Account</Button>
