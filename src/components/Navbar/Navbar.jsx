@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaChevronDown } from 'react-icons/fa';
 import './Navbar.css'
 import { logout } from '../../Redux/Actions.js/authAction';
+import { TiPlus } from 'react-icons/ti';
+import { BiPlusMedical } from 'react-icons/bi';
+import { FaHouseMedical } from 'react-icons/fa6';
 const BACKEND_URL= import.meta.env.VITE_BACKEND_URL;
 
 const Navbar = () => {
@@ -23,7 +26,12 @@ const Navbar = () => {
 
   return (
     <Box display={'flex'} height={'4.8rem'} alignItems={'center'} justifyContent={'space-between'} borderBottom={'1px solid grey'}>
-      <Typography level="h2" sx={{cursor: 'pointer'}}  onClick={()=> navigate('/')}>Doctor<Typography textColor={color.primary}>Now</Typography></Typography>
+      <Box sx={{cursor: 'pointer', color: '#004B4B'}} display={'flex'} alignItems={'center'}  onClick={()=> navigate('/')}>
+         {/* <BiPlusMedical style={{fontSize: '1.6rem', marginRight: '0.2rem'}} /> */}
+         <FaHouseMedical style={{fontSize: '1.6rem', marginRight: '0.2rem', color: '#004B4B'}} />
+        <Typography fontSize={'1.8rem'} fontWeight={600} sx={{color: color.primary}}>Docmate</Typography>
+         </Box>
+      {/* <Typography textColor={color.primary}>Now</Typography> */}
       <Box color={'#282828'} width={'28rem'} display={'flex'} alignItems={'center'} fontFamily={'san serif'} fontSize={'0.9rem'} justifyContent={'space-evenly'}>
         <NavLink to={'/'} style={{ color: '#282828', textDecoration: 'none', paddingBottom: '0.3rem', borderBottom: path == 'home' && `2px solid ${color.primary}` }}>HOME</NavLink>
         <NavLink to={'/alldoctors'} style={{ color: '#282828', textDecoration: 'none', paddingBottom: '0.3rem', borderBottom: path == 'alldoctors' && `2px solid ${color.primary}` }}>ALL DOCTORS</NavLink>

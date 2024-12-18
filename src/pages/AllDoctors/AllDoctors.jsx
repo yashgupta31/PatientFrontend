@@ -23,7 +23,7 @@ const handleClick = (specialist) => {
     async function fetchDoctors(){
 
         try {
-            const response= await axios.get('http://localhost:8080/doctor/get-available-doctors', 
+            const response= await axios.get(`${BACKEND_URL}/doctor/get-available-doctors`, 
                 {
                     params: { specialist: selectedSpecialist },
                 }
