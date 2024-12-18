@@ -7,7 +7,7 @@ import Hero2 from './Hero2/Hero2'
 
 const Home = () => {
   return (
-    <Box bgcolor={'lightpink'} >
+    <Box>
       <Hero />
       <Speciality />
       <Doctors />

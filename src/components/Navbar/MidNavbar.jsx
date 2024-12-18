@@ -12,6 +12,7 @@ import { BiPlusMedical } from 'react-icons/bi'
 import { FaHouseMedical } from 'react-icons/fa6'
 
 const MidNavbar = () => {
+  const { userData, token } = useSelector((state) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,14 +37,23 @@ const MidNavbar = () => {
       </Box> 
           <RxCross1 style={{ fontSize: '1.4rem' }} onClick={() => setIsMenuOpen(false)} />
         </Box>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
         <Button sx={{ fontSize: '1.1rem' }} onClick={() => { navigate('/'); setIsMenuOpen(false) }}>Home</Button>
         <Button sx={{ fontSize: '1.1rem' }} onClick={() => { navigate('/profile'); setIsMenuOpen(false) }}>My Profile</Button>
         <Button sx={{ fontSize: '1.1rem' }} onClick={() => { navigate('/alldoctors'); setIsMenuOpen(false) }}>All Doctors</Button>
         <Button sx={{ fontSize: '1.1rem' }} onClick={() => { navigate('/about'); setIsMenuOpen(false) }}>About</Button>
-        <Button sx={{ fontSize: '1.1rem' }} onClick={() => { navigate('/'); setIsMenuOpen(false) }}>Contact us</Button>
+        <Button sx={{ fontSize: '1.1rem' }} onClick={() => { navigate('/contact'); setIsMenuOpen(false) }}>Contact us</Button>
         <Button sx={{ fontSize: '1.1rem' }} onClick={() => { navigate('/my-appointments'); setIsMenuOpen(false) }}>All Appointments</Button>
-        <Button sx={{ fontSize: '1.1rem' }} onClick={() => { navigate('/'); setIsMenuOpen(false) }}>Admin Panel</Button>
-        <Button sx={{ fontSize: '1.1rem' }} onClick={() => { dispatch(logout()); setIsMenuOpen(false) }}>Logout</Button>
+        <Button href="https://docmate-admin-frontend.vercel.app" target="_blank"  sx={{ fontSize: '1.1rem' }}>Admin Pannel</Button>
+        {/* <Typography component={'a'} href='https://docmate-admin-frontend.vercel.app' sx={{ fontSize: '1.1rem', textDecoration: 'none' }} target="_blank" onClick={() => { setIsMenuOpen(false) }}><Button>Admin Panel </Button></Typography> */}
+        {
+          (userData && token)? 
+          <Button sx={{ fontSize: '1.1rem' }} onClick={() => { dispatch(logout()); setIsMenuOpen(false) }}>Logout</Button>:
+          <Button sx={{ fontSize: '1.1rem' }} onClick={()=> {navigate('/auth'); setIsMenuOpen(false)}}>Login</Button>
+        }
+        </Box>
+        
+        
       </Box>
 
     </Box>
