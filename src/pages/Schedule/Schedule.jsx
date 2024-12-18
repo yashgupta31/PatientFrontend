@@ -91,7 +91,7 @@ const Schedule = () => {
     useEffect(() => {
         async function singleDoctor() {
             try {
-                const response = await axios.get(`http://localhost:8080/doctor/singledoctor/${id}`)
+                const response = await axios.get(`${BACKEND_URL}/doctor/singledoctor/${id}`)
                 setSingleDoctor(response.data.data)
             } catch (error) {
                 console.log(error.message)

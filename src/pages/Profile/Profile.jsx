@@ -38,6 +38,7 @@ const Profile = () => {
     DOB: '',
 
   });
+  console.log(formState.profilePic)
   const [prevImage, setPrevImage]= useState()
   // Synchronize formState with userData
   useEffect(() => {
@@ -75,11 +76,11 @@ const Profile = () => {
         formData.append(key, value);
       });
       dispatch(updateUser(formData))
-      //   const response = await axios.patch(`${BACKEND_URL}/user/update-profile/${userData.userId}`, formData);
-      //   console.log(response)
-      //   alert(response.data.message);
-
-      setIsEdit(false);
+      
+      setTimeout(()=>{
+        setIsEdit(false);
+      }, 2000)
+      
     } catch (error) {
       alert(error.message);
     }
